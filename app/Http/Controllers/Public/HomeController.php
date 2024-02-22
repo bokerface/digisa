@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->limit(6)->get();
+        $products = Product::latest()->limit(8)->get();
         $categories = Category::all();
         return view('public.pages.home')
             ->with(compact('products', 'categories'));
