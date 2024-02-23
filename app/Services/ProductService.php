@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\TransactionItem;
 use App\Traits\FileUpload;
@@ -14,13 +15,16 @@ class ProductService
 
     public static $product;
 
-    public static function productList($request)
+    public static function productList($request, $sales = null)
     {
         $products = Product::when($request->has('category'), function ($q) use ($request) {
             $q->whereRaw("FIND_IN_SET(?, category_id)", $request->category);
         })
             ->when($request->has('search'), function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%');
+            })
+            ->when($sales, function ($q) {
+                $q->with('transactionItems');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(20)
@@ -113,6 +117,24 @@ class ProductService
                 ]);
             }
         });
+    }
+
+    public static function sales()
+    {
+        $perProduct  = Product::with('transactionItems')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20)
+            ->withQueryString();
+
+        $perCategory = Category::with('products', 'products.transactionItems')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20)
+            ->withQueryString();
+
+        return [
+            'perProduct' => $perProduct,
+            'perCategory' => $perCategory
+        ];
     }
 
     public static function fetch()

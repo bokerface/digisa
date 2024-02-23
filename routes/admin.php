@@ -23,6 +23,7 @@ Route::prefix('products')->group(function () {
     Route::get('edit/{id}', [ProductController::class, 'edit'])->where('id', '[0-9]+')->name('admin.edit_product');
     Route::put('update/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+')->name('admin.update_product');
     Route::delete('delete/{id}', [ProductController::class, 'delete'])->where('id', '[0-9]+')->name('admin.delete_product');
+    Route::get('sale-stats', [ProductController::class, 'saleStats'])->name('admin.product_sale_stats');
 });
 
 Route::prefix('transactions')->group(function () {

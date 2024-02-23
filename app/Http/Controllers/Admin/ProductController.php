@@ -51,4 +51,12 @@ class ProductController extends Controller
 
         return redirect()->to(route('admin.product_index'))->with('success', 'Produk dihapus');
     }
+
+    public function saleStats()
+    {
+        $sales = ProductService::sales();
+        // dd($sales);
+        return view('admin.pages.product.stats')
+            ->with(compact('sales'));
+    }
 }

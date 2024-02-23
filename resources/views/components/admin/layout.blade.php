@@ -56,7 +56,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Produk
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -64,6 +64,13 @@
                 <a class="nav-link" href="{{ route('admin.product_index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Produk</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.product_sale_stats') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Statistik Penjualan</span>
                 </a>
             </li>
 

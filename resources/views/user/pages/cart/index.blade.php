@@ -2,7 +2,7 @@
     <section class="py-5" id="features">
 
         <div class="container px-5 my-5">
-            @if(session()->has('success'))
+            @if (session()->has('success'))
                 <div class="alert alert-success justify-content-between d-flex" role="alert">
                     <span>
                         {{ session()->get('success') }}
@@ -13,7 +13,7 @@
                 </div>
             @endif
 
-            @if(session()->has('warning'))
+            @if (session()->has('warning'))
                 <div class="alert alert-warning justify-content-between d-flex" role="alert">
                     <span>
                         {{ session()->get('warning') }}
@@ -44,18 +44,17 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if($cart['cartItems'] == null)
+                            @if ($cart['cartItems'] == null)
                                 <p class="text-center">
                                     Keranjang anda kosong
                                 </p>
                             @else
-                                @foreach($cart['cartItems'] as $item)
+                                @foreach ($cart['cartItems'] as $item)
                                     <div class="d-flex mb-2">
                                         <div class="col-5">{{ $item->product->name }}</div>
                                         <div class="col-5">Rp. {{ $item->product->price }}</div>
                                         <div class="col-2 d-flex justify-content-end">
-                                            <form
-                                                action="{{ route('user.remove_item_from_cart', $item->id) }}"
+                                            <form action="{{ route('user.remove_item_from_cart', $item->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
