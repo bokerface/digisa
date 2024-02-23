@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\TransactionItem;
 use App\Traits\FileUpload;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -57,9 +58,24 @@ class ProductService
         });
     }
 
-    public static function productDetail($id)
+    public static function productDetail($id, $userId = null)
     {
-        static::$product = Product::find($id);
+        $product = Product::find($id);
+
+        $bought = false;
+        if ($userId != null) {
+            $items = TransactionItem::with('transaction')
+                ->whereHas('transaction', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->get();
+
+            $bought = in_array($product->id, $items->pluck('product_id')->toArray());
+        }
+
+        static::$product = $product;
+        static::$product->is_bought = $bought;
+
         return new static;
     }
 

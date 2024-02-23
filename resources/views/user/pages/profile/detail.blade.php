@@ -65,6 +65,21 @@
                             </form>
                         </div>
                     </div>
+                    <div class="card mt-2">
+                        <div class="card-header">
+                            Transaksi Saya
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <h5 class="font-weight-bold">Tagihan</h5>
+                                {{ $unpaidTransactions->count() }} belum dibayar
+                            </div>
+                            <div class="mb-2">
+                                <h5 class="font-weight-bold">File</h5>
+                                {{ $downloadable->count() }} arsip dapat diunduh.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

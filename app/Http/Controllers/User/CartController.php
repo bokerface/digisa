@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Services\CartService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,11 +22,13 @@ class CartController extends Controller
     {
         $userId = Auth::user()->id;
         $cartItem = CartService::addProductToCart($userId, $productId);
+        $product = ProductService::productDetail($productId, $userId)->fetch();
+        // dd($cartItem);
 
-        if ($cartItem == 'exists') {
+        if ($cartItem == 'exists' || $product->is_bought) {
             return redirect()
-                ->back()
-                ->with('warning', 'Barang yang anda inginkan sudah ada di keranjang.');
+                ->to(route('public.product_detail', $productId))
+                ->with('warning', 'Barang yang anda inginkan sudah ada di keranjang atau sudah pernah anda beli.');
         }
 
         return redirect()

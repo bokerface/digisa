@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\TransactionItem;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -24,7 +26,11 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = ProductService::productDetail($id)->fetch();
+        $userId = null;
+        if (Auth::check() && Auth::user()->role_id == 2) {
+            $userId = Auth::user()->id;
+        }
+        $product = ProductService::productDetail($id, $userId)->fetch();
 
         return view('public.pages.product.detail')
             ->with(compact('product'));

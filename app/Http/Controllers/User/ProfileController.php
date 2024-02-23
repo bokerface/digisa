@@ -7,6 +7,7 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
+use App\Services\TransactionService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,14 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        $user = User::find(Auth::user()->id);
+        $userId = Auth::user()->id;
+        $user = User::find($userId);
+
+        $unpaidTransactions = TransactionService::userTransactions($userId, 'pending');
+        $downloadable = TransactionService::paidFiles($userId);
+
         return view('user.pages.profile.detail')
-            ->with(compact('user'));
+            ->with(compact('user', 'unpaidTransactions', 'downloadable'));
     }
 
     public function update(UpdateProfileRequest $request)
