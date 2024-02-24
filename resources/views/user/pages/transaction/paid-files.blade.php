@@ -30,10 +30,20 @@
                                         {{ $file->product->name }}
                                     </td>
                                     <td>
-                                        <a href="{{ route('user.download_file', $file->id) }}"
-                                            class="btn btn-primary btn-sm" id="openModalButton">
-                                            Download
-                                        </a>
+                                        @if ($file->file != null)
+                                            <a href="{{ route('user.download_file', $file->id) }}"
+                                                class="btn btn-primary btn-sm openModalButton" id="openModalButton">
+                                                Download
+                                            </a>
+                                        @endif
+
+                                        @if ($file->link_gdrive != null)
+                                            <a href="{{ $file->link_gdrive }}"
+                                                class="btn btn-primary btn-sm openModalButton" id="openModalButton">
+                                                Download (Google Drive)
+                                            </a>
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -87,17 +97,19 @@
 
             // When the document is ready
             document.addEventListener("DOMContentLoaded", function() {
-                // Select the link/button that opens the modal
-                const openModalButton = document.getElementById('openModalButton');
+                // Select all buttons that open the modal
+                const openModalButtons = document.querySelectorAll('.openModalButton');
 
-                // Add a click event listener to the link/button
-                openModalButton.addEventListener('click', function(event) {
-                    // Prevent the default action (redirecting)
-                    event.preventDefault();
+                // Add click event listeners to each button
+                openModalButtons.forEach(function(button) {
+                    button.addEventListener('click', function(event) {
+                        // Prevent the default action (redirecting)
+                        event.preventDefault();
 
-                    // Show the modal
-                    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                    modal.show();
+                        // Show the modal
+                        const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                        modal.show();
+                    });
                 });
 
                 // Select the confirmation button within the modal
@@ -105,8 +117,12 @@
 
                 // Add a click event listener to the confirmation button
                 confirmButton.addEventListener('click', function() {
+                    // Hide the modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+                    modal.hide();
+
                     // Perform the redirect
-                    window.location.href = openModalButton.getAttribute('href');
+                    window.location.href = document.querySelector('.openModalButton').getAttribute('href');
                 });
             });
         </script>
