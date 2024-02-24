@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('thumbnail')->nullable();
             $table->text('description')->nullable();
             $table->text('file')->nullable();
+            $table->text('link_gdrive')->nullable();
             $table->decimal('price')->nullable();
             $table->unsignedBigInteger('group_id')->nullable();
             $table->timestamps();

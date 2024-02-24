@@ -27,7 +27,8 @@ class StoreProductRequest extends FormRequest
             'category_id.*' => ['sometimes', 'numeric', 'exists:categories,id'],
             'thumbnail' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
             'description' => ['required', 'string'],
-            'file' => ['required', 'file', 'mimes:pdf'],
+            'file' => ['nullable', 'file', 'mimes:pdf'],
+            'link_gdrive' => ['nullable', 'string'],
             'price' => ['required', 'integer'],
             'group_id' => ['nullable', 'string', 'exists:groups,id'],
         ];
@@ -50,6 +51,8 @@ class StoreProductRequest extends FormRequest
             'file.file' => 'File harus bertipe PDF.',
             'thumbnail.image' => 'Thumbnail harus bertipe gambar.',
             'thumbnail.mimes' => 'Thumbnail harus bertipe gambar.',
+
+            'link_gdrive.string' => 'Format isisan tidak sesuai.',
         ];
     }
 }

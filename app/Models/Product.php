@@ -19,10 +19,12 @@ class Product extends Model
         'file',
         'price',
         'group_id',
+        'link_gdrive',
     ];
 
     protected $hidden = [
-        'file'
+        'file',
+        'link_gdrive',
     ];
 
     public function cartItems()

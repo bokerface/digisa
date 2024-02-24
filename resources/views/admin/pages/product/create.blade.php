@@ -16,14 +16,13 @@
             Detail Produk
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.store_product') }}" method="post"
-                enctype="multipart/form-data">
+            <form action="{{ route('admin.store_product') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <!-- Product Name -->
                 <div class="form-group">
                     <label for="name">Nama Produk</label>
-                    <input type="text" class="form-control" id="name" name="name"
-                        value="{{ old('name') }}" required>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                        required>
                     @error('name')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -34,15 +33,14 @@
                     <label for="price">Kategori</label>
                     <div class="form-group">
                         <label for="select_category">Cari berdasarkan nama kategori atau
-                            <a href="{{ route('admin.create_category') }}"
-                                class="btn btn-primary btn-sm" target="_blank">
+                            <a href="{{ route('admin.create_category') }}" class="btn btn-primary btn-sm"
+                                target="_blank">
                                 tambah kategori baru
                             </a>
                         </label>
                         <select class="form-control" name="category_id[]" id="select_category" multiple="multiple">
-                            @if(old("category_id") != null)
-                                @foreach(
-                                    old("category_id") as $key => $value)
+                            @if (old('category_id') != null)
+                                @foreach (old('category_id') as $key => $value)
                                     <option value="{{ $value }}" selected>
                                         {{ App\Models\Category::find($value)->name }}
                                     </option>
@@ -60,8 +58,7 @@
                 <!-- Product Thumbnail -->
                 <div class="form-group">
                     <label for="thumbnail">Thumbnail</label>
-                    <input type="file" class="form-control-file" id="thumbnail" name="thumbnail" accept="image/*"
-                        required>
+                    <input type="file" class="form-control-file" id="thumbnail" name="thumbnail" accept="image/*">
                     @error('thumbnail')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -70,8 +67,7 @@
                 <!-- Product Description -->
                 <div class="form-group">
                     <label for="description">Deskripsi</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"
-                        required>{{ old('description') }}</textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
                     @error('description')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -80,8 +76,17 @@
                 <!-- Product File -->
                 <div class="form-group">
                     <label for="file">File</label>
-                    <input type="file" class="form-control-file" id="file" name="file" required>
+                    <input type="file" class="form-control-file" id="file" name="file">
                     @error('file')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <!-- Link Gdrive -->
+                <div class="form-group">
+                    <label for="link_gdrive">Link Google Drive (jika file sudah ada)</label>
+                    <textarea class="form-control" id="link_gdrive" name="link_gdrive" rows="3">{{ old('link_gdrive') }}</textarea>
+                    @error('link_gdrive')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -90,7 +95,7 @@
                 <div class="form-group">
                     <label for="price">Harga</label>
                     <input type="number" class="form-control" id="price" name="price"
-                        value="{{ old('price') }}" required>
+                        value="{{ old('price') }}">
                     @error('price')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -101,15 +106,13 @@
                     <label for="price">Group</label>
                     <div class="form-group">
                         <label for="select_group">Cari berdasarkan nama grup atau
-                            <a href="{{ route('admin.create_group') }}" class="btn btn-primary btn-sm"
-                                target="_blank">
+                            <a href="{{ route('admin.create_group') }}" class="btn btn-primary btn-sm" target="_blank">
                                 tambah grup baru
                             </a>
                         </label>
                         <select class="form-control" name="group_id" id="select_group">
-                            @if(old("group_id") != null)
-                                @foreach(
-                                    old("group_id") as $key => $value)
+                            @if (old('group_id') != null)
+                                @foreach (old('group_id') as $key => $value)
                                     <option value="{{ $value }}" selected>
                                         {{ App\Models\Group::find($value)->name }}
                                     </option>
@@ -131,16 +134,16 @@
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#select_category').select2({
                     theme: "bootstrap",
                     ajax: {
                         url: "{{ route('admin.get_category_by_name') }}",
                         dataType: 'json',
                         delay: 250,
-                        processResults: function (data) {
+                        processResults: function(data) {
                             return {
-                                results: $.map(data, function (item) {
+                                results: $.map(data, function(item) {
                                     return {
                                         text: item.name,
                                         id: item.id
@@ -158,10 +161,10 @@
                         url: "{{ route('admin.get_group_by_name') }}",
                         dataType: 'json',
                         delay: 250,
-                        processResults: function (data) {
+                        processResults: function(data) {
                             // console.log(data);
                             return {
-                                results: $.map(data, function (item) {
+                                results: $.map(data, function(item) {
                                     return {
                                         text: item.name,
                                         id: item.id
@@ -173,7 +176,6 @@
                     }
                 });
             });
-
         </script>
     @endpush
 

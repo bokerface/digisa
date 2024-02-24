@@ -84,15 +84,24 @@ class TransactionService
             ]);
 
             foreach ($transaction->transactionItems as $item) {
-                $sourcePath = Crypt::decryptString($item->product->file);
-                $destinationPath = "transactions/" . $transaction->id . "/" . "products/" . $item->product->id;
-                $destinationFileName = $item->product->name . "." . pathinfo($sourcePath, PATHINFO_EXTENSION);
-                Storage::copy($sourcePath, $destinationPath . '/' . $destinationFileName);
-                $transactionFilePath =  $destinationPath . '/' . $destinationFileName;
 
-                $item->update([
-                    'file' => $transactionFilePath
-                ]);
+                if ($item->product->file != null) {
+                    $sourcePath = Crypt::decryptString($item->product->file);
+                    $destinationPath = "transactions/" . $transaction->id . "/" . "products/" . $item->product->id;
+                    $destinationFileName = $item->product->name . "." . pathinfo($sourcePath, PATHINFO_EXTENSION);
+                    Storage::copy($sourcePath, $destinationPath . '/' . $destinationFileName);
+                    $transactionFilePath =  $destinationPath . '/' . $destinationFileName;
+
+                    $item->update([
+                        'file' => $transactionFilePath,
+                    ]);
+                }
+
+                if ($item->product->link_gdrive != null) {
+                    $item->update([
+                        'link_gdrive' => $item->product->link_gdrive
+                    ]);
+                }
             }
         });
 

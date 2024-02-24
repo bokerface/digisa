@@ -25,10 +25,11 @@ class UpdateProductRequest extends FormRequest
             'name' => 'required', 'string',
             'category_id' => ['required', 'array'],
             'category_id.*' => ['sometimes', 'numeric', 'exists:categories,id'],
-            'thumbnail' => ['image', 'mimes:jpeg,png,jpg,gif,svg'],
+            'thumbnail' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
             'description' => ['required', 'string'],
-            'file' => ['file', 'mimes:pdf'],
-            'price' => ['required', 'numeric'],
+            'file' => ['nullable', 'file', 'mimes:pdf'],
+            'link_gdrive' => ['nullable', 'string'],
+            'price' => ['required', 'integer'],
             'group_id' => ['nullable', 'string', 'exists:groups,id'],
         ];
     }
@@ -50,6 +51,8 @@ class UpdateProductRequest extends FormRequest
             'file.file' => 'File harus bertipe PDF.',
             'thumbnail.image' => 'Thumbnail harus bertipe gambar.',
             'thumbnail.mimes' => 'Thumbnail harus bertipe gambar.',
+
+            'link_gdrive.string' => 'Format isisan tidak sesuai.',
         ];
     }
 }

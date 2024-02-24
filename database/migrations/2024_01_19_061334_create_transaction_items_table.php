@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->text('file')->nullable();
+            $table->text('link_gdrive')->nullable();
             $table->decimal('price')->nullable();
             $table->timestamps();
         });

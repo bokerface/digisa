@@ -14,7 +14,7 @@ class CartController extends Controller
     {
         $userId = Auth::user()->id;
         $cart = CartService::cartIndex($userId);
-        dd($cart);
+        // dd($cart);
         return view('user.pages.cart.index')
             ->with(compact('cart'));
     }

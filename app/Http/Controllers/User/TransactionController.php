@@ -54,6 +54,8 @@ class TransactionController extends Controller
     {
         $transaction = TransactionService::transactionDetail($id)->fetch();
 
+        // dd($transaction->transactionItems);
+
         return view('user.pages.transaction.detail')
             ->with(compact('transaction'));
     }

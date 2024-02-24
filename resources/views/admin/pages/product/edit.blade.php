@@ -75,7 +75,7 @@
 
                 <!-- Product Description -->
                 <div class="form-group">
-                    <label for="description">Description</label>
+                    <label for="description">Deskripsi</label>
                     <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $product->description) }}</textarea>
                     @error('description')
                         <small class="text-danger">{{ $message }}</small>
@@ -87,6 +87,15 @@
                     <label for="file">File</label>
                     <input type="file" class="form-control-file" id="file" name="file">
                     @error('file')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <!-- Product Description -->
+                <div class="form-group">
+                    <label for="link_gdrive">Link Google Drive (jika ada)</label>
+                    <textarea class="form-control" id="link_gdrive" name="link_gdrive" rows="3" required>{{ old('link_gdrive', $product->link_gdrive) }}</textarea>
+                    @error('link_gdrive')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>

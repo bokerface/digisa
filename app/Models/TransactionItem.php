@@ -14,6 +14,7 @@ class TransactionItem extends Model
         'product_id',
         'file',
         'price',
+        'link_gdrive',
     ];
 
     public function transaction()

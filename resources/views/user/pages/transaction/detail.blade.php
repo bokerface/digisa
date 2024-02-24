@@ -186,9 +186,17 @@
                         ...
                         <div>
                             @foreach ($transaction->transactionItems as $item)
-                                <a href="{{ route('user.download_file', $item->id) }}" class="btn btn-primary btn-sm">
-                                    Download {{ $item->product->name }}
-                                </a>
+                                @if ($item->file != null)
+                                    <a href="{{ route('user.download_file', $item->id) }}"
+                                        class="btn btn-primary btn-sm mr-1">
+                                        Download {{ $item->product->name }}
+                                    </a>
+                                @endif
+                                @if ($item->link_gdrive != null)
+                                    <a href="{{ $item->link_gdrive }}" class="btn btn-primary btn-sm mr-1">
+                                        Download {{ $item->product->name }} (Google Drive)
+                                    </a>
+                                @endif
                             @endforeach
                         </div>
                     </div>

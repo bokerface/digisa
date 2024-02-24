@@ -50,11 +50,13 @@ class ProductService
             ]);
 
             // upload document file
-            $filePath = "products/{$product->id}/file/";
-            $uploadedFile = self::upload($request->validated('file'), $filePath);
-            $product->update([
-                'file' => $uploadedFile
-            ]);
+            if ($request->hasFile('file')) {
+                $filePath = "products/{$product->id}/file/";
+                $uploadedFile = self::upload($request->validated('file'), $filePath);
+                $product->update([
+                    'file' => $uploadedFile
+                ]);
+            }
 
             // dd($path);
 
